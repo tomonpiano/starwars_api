@@ -1,0 +1,14 @@
+createListButtons (list) {
+    const buttonList = list.map((element, i) => {
+      return (
+      <div key={i}>
+        <button onClick={() => this.handleClick(i)}>
+          {element.name}
+        </button>
+      </div>
+      )
+    });
+    return (
+      buttonList
+    )
+  }
