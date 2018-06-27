@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import 'tachyons';
 import CreateListButtons from '../components/CreateListButtons.js'
 import ShowProfile from '../components/ShowProfile'
 
@@ -28,15 +27,15 @@ class App extends Component {
     return !this.state.people.length ?
         <div>Loading</div> :
         (
-          <div className="w-100 h-100">
-            <div className = "w-100 h-75 bg-blue">
+          <div className = "flexContainer">
+            <div className = "flexContainer">
               <CreateListButtons 
-                list={this.state.people}
-                handleClick={this.handleClick}
+                  list={this.state.people}
+                  handleClick={this.handleClick}
               />
             </div>
-            <div className = "w-100 h-25 bg-light-blue">
-              <ShowProfile selectedPerson={this.state.selectedPerson} />
+            <div className = "flexContainer">
+                <ShowProfile selectedPerson={this.state.selectedPerson} />
             </div>
           </div>
         )
