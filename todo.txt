@@ -1,0 +1,4 @@
+convert functions to components
+handle urls in selection
+add searchbar
+add home button

@@ -1,24 +1,35 @@
 import React from 'react';
 
-//should be class so handleClick is not rerendered every time
+//should be component to allow for updates
 
-const CreateListButtons = function (props) {
-    const buttonList = props.list.map((element, i) => {
-      const handleClick = () => props.handleClick(i)
-      return (
-        <button
-          key={i}
-          onClick={handleClick}>
-            {element.name}
-        </button>
-      )
-    });
-    return (
-      <div className ="flexContainer">
-        {buttonList}
-      </div>
-      //buttonList
-    )
+const createButton = (object, handleClick) => {
+  let name;
+  if (object.name) {
+    name = object.name;
+  } else {
+    name = object.title;
   }
+  return (
+    <button 
+      key={name}
+      onClick={handleClick}>
+      {name}
+    </button>
+  )
+}
 
-export default CreateListButtons;
+const CreateListButtons = (objectList, handleClick) => {
+  const buttonList = objectList.map((element, i) => {
+    const onClick = () => handleClick(element, i)
+    return (
+      createButton(element, onClick)
+    )
+  });
+  return (
+    <div className ="flexContainer halfWidth">
+      {buttonList}
+    </div>
+  )
+}
+
+export {CreateListButtons, createButton};
