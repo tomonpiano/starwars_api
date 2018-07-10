@@ -2,7 +2,8 @@ import React from 'react';
 
 //should be component to allow for updates
 
-const createButton = (object, handleClick) => {
+const createButton = (object, handleClick, className) => {
+  // do we need this anymore? handled in App
   let name;
   if (object.name) {
     name = object.name;
@@ -10,7 +11,8 @@ const createButton = (object, handleClick) => {
     name = object.title;
   }
   return (
-    <button 
+    <button
+      className = {className}
       key={name}
       onClick={handleClick}>
       {name}
@@ -26,7 +28,7 @@ const CreateListButtons = (objectList, handleClick) => {
     )
   });
   return (
-    <div className ="flexContainer halfWidth">
+    <div>
       {buttonList}
     </div>
   )

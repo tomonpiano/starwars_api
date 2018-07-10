@@ -1,0 +1,41 @@
+[33mcommit 866c45eb3282aca322bc0060018f6ec73064ceb9[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Mon Jul 9 19:06:50 2018 +0100
+
+    ShowProfile buttons and button lists
+
+[33mcommit 71fb30ff8b15f454108dacba243a18e5a7493dbe[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Mon Jul 2 07:42:18 2018 +0100
+
+    aysnc functions, multi page API fetch
+
+[33mcommit 4b5dafcc486459ec214cf16fc06590d77397acda[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Wed Jun 27 13:10:48 2018 +0100
+
+    mobile first basic styling
+
+[33mcommit ecbec08df88986262a5a625e608d571db361b04f[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Mon Jun 25 10:55:33 2018 +0100
+
+    styling with tachyons
+
+[33mcommit cf745d94cfd77e086c3edecbd86315b84c92979e[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Sat Jun 23 08:08:15 2018 +0100
+
+    removed css
+
+[33mcommit aa080940c8b8d9ab50c3c8e60ddce569bb47867c[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Sat Jun 23 08:05:55 2018 +0100
+
+    added button list
+
+[33mcommit 236ab411d07bc9efc028bc6906f7f51da8943c6a[m[33m ([m[1;31morigin/master[m[33m)[m
+Author: Thomas Scott <tom@tomscottonline.com>
+Date:   Fri Jun 22 08:40:38 2018 +0100
+
+    Initial commit

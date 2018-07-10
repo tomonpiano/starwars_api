@@ -3,6 +3,8 @@ import './App.css';
 import {CreateListButtons} from '../components/CreateListButtons.js'
 import ShowProfile from '../components/ShowProfile'
 import {getData, getUrl} from '../components/APICalls.js'
+import SearchBox from '../components/SearchBox.js'
+import Scroll from '../components/Scroll.js'
 
 const ROOTURL = "https://swapi.co/api/"
 
@@ -13,6 +15,7 @@ class App extends Component {
       category : null,
       apiRoot: {},
       selection: null,
+      searchField: "",
     };
   }
 
@@ -69,8 +72,22 @@ class App extends Component {
     }
   }
 
-  componentDidUpdate () {
-    console.log("Main App updated");
+  onSearchChange = (event) => {
+    this.setState({searchField: event.target.value});
+  }
+
+  resetButton = () => {
+    const handleClick = () => {
+      this.setState({category : "apiRoot"})
+      this.setState({selection : null})
+    }
+    return (
+      <div>
+        <button className = "fullWidth" onClick = {handleClick}>
+          Reset
+        </button>
+      </div>
+    )
   }
 
   render() {
@@ -78,19 +95,32 @@ class App extends Component {
       return <div>Loading</div>;
     } else if (!this.state.selection) {
       const buttonList = this.objectList();
+      const filteredButtonList = buttonList.filter((button) => {
+        const name = button.name.toLowerCase();
+        const search = this.state.searchField.toLowerCase();
+        return (name.includes(search));
+      })
       return (
-        <div className = "flexContainer">
-          {CreateListButtons(buttonList, this.handleClick)} 
+        <div className = "flexContainer center">
+          {this.resetButton()}
+          <SearchBox searchChange = {this.onSearchChange}/>
+          <Scroll>
+            {CreateListButtons(filteredButtonList, this.handleClick)} 
+          </Scroll>
         </div>
+
           
       );
     } else {
       return (
       <div className = "flexContainer">
+        {this.resetButton()}
+        <Scroll>
         <ShowProfile 
           selection={this.state.selection}
           handleClick={this.handleClick}
         />
+        </Scroll>
       </div>
         );
       }

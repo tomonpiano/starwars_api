@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {createButton, CreateListButtons} from './CreateListButtons.js'
+import {createButton} from './CreateListButtons.js';
+import '../containers/App.css';
 
 const isEmpty = function (query) {
   if (query.length === 0) {
@@ -14,8 +15,7 @@ const isLink = function (stringQuery) {
     }
   }
   catch(err) {
-    console.log("ERROR. Can't perform slice on: "+ stringQuery);
-    console.log(err);
+    //console.log("ERROR. Can't perform slice on: "+ stringQuery);
   }   
 }
 
@@ -28,12 +28,41 @@ const isListOfLinks = function (query) {
 }
 
 class ShowProfile extends Component {
-  state = {}
+
+  constructor(props) {
+    super(props);
+    this.state = ({
+      selection : this.props.selection,
+      column2 : Object.values(this.props.selection)
+    });
+  }
 
   componentDidMount() {
-    this.getEntryLink(this.props.selection)
-    //when rerendering not being called
+    const column2 = this.state.column2;
+    this.convertColumn2ToButton(column2);
+  }
 
+  componentDidUpdate() {
+    if(this.props.selection !== this.state.selection) {
+      this.setState({selection : this.props.selection})
+      this.setState({column2 : Object.values(this.props.selection)})
+      this.convertColumn2ToButton(Object.values(this.props.selection));
+    }
+  }
+
+  convertColumn2ToButton = async (list) => {
+    const newColumn2 = Promise.all(list.map((element) => {
+      if (isLink(element)){
+        const button = this.linkToButton(element);
+        return (button);
+      } else if (isListOfLinks(element)) {
+        const buttons = this.linksToButtonList (element);
+        return buttons;
+      } else {
+        return element
+      }
+    }))
+    this.setState({column2 : await newColumn2})
   }
 
   linkToButton = async (url) => {
@@ -42,58 +71,59 @@ class ShowProfile extends Component {
     const onClick = () => {
       return this.props.handleClick(objectData);
     }
-    const button = createButton(objectData, onClick);
+    const button = createButton(objectData, onClick, "tbl");
     return button;
   }
 
   linksToButtonList = async (urlList) => {
-    const buttonList = await Promise.all(urlList.map(async (element) => {
-      return await this.linkToButton(element);
+    const buttonList = await Promise.all(urlList.map( (element) => {
+      return this.linkToButton(element);
     }))
     return buttonList;
   }
   
-
-  getEntryLink = (selectionObject) => {
-    const entries = Object.entries(selectionObject);
-    entries.forEach(async (entry) => {
-      const key = entry[0]
-      const value = entry[1]
-      if (isLink(value)) {
-        this.setState({[key] : await this.linkToButton(value)});
-      }
-      if (isListOfLinks(value)) {
-        this.setState({[key] : await this.linksToButtonList(value)})
-      }
-    })
+  setLinksToButtons = async (tableEntry) => {
+    if (isLink(tableEntry)) {
+      const button = await this.linkToButton(tableEntry);
+      return button;
+    } else if (isListOfLinks(tableEntry)) {
+      const buttonList = await this.linksToButtonList(tableEntry);
+      return buttonList;
+    } else {
+      return tableEntry;
+    }      
   }
 
-  componentDidUpdate() {
-    
+  createTableOutput = () => {
+    const selectionKeys = Object.keys(this.props.selection);
+    const column1 = selectionKeys.map((string) => string.replace(/_/g," "));
+    const column2 = this.state.column2;
+    const rows = column1.map((entry, i) => {
+      return [column1[i], column2[i]]
+    })
+    const filteredRows = rows.filter((row) => {
+      return (!["edited", "created", "url"].includes(row[0]))
+    })
+    const output = filteredRows.map((row, i) => {
+      let column2Class = "caps";
+      if (row[0] === "opening crawl") {
+        column2Class = "noCaps";
+      }      
+      return (
+      <tr key={row[0]}>
+        <td className = "caps">{row[0]}</td>
+        <td className = {column2Class}>{row[1]}</td>
+      </tr>
+      )        
+    });
+    return output;    
   }
 
   render() {
-    const selection = this.props.selection;
-    const entries = Object.entries(selection);
-    // don't need to assign props to state.
-    // do all operations on props
-    const tableOutput = entries.map((entry) => {
-      let value = ""
-      if (this.state[entry[0]]) {
-        value = this.state[entry[0]];
-      }
-      else {value = entry[1];}
-      return (
-        <tr key={entry[0]}>
-          <td>{entry[0].replace("_"," ")}</td>
-          <td>{value}</td>
-        </tr>
-      )
-    })
     return (
       <table>
         <tbody>
-          {tableOutput}
+          {this.createTableOutput()}
         </tbody>
       </table>
     )       
