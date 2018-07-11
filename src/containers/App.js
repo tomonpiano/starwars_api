@@ -101,7 +101,8 @@ class App extends Component {
         return (name.includes(search));
       })
       return (
-        <div className = "flexContainer center">
+        <div className = "flexContainer fullHeight">
+          <h1>Star Wars</h1>
           {this.resetButton()}
           <SearchBox searchChange = {this.onSearchChange}/>
           <Scroll>
@@ -113,7 +114,8 @@ class App extends Component {
       );
     } else {
       return (
-      <div className = "flexContainer">
+      <div className = "fullHeight flexContainer">
+        <h1>Star Wars</h1>
         {this.resetButton()}
         <Scroll>
         <ShowProfile 

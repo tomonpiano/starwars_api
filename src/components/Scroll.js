@@ -3,8 +3,8 @@ import '../containers/App.css'
 
 const Scroll = (props) => {
 	return (
-		<div 
-			style={{overflowY: 'auto', height: '500px'}}>
+		<div className="fullHeight autoWidth" 
+			style={{overflowY: 'auto'}}>
 			{props.children}
 		</div>
 	)

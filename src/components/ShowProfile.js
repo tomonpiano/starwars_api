@@ -33,7 +33,8 @@ class ShowProfile extends Component {
     super(props);
     this.state = ({
       selection : this.props.selection,
-      column2 : Object.values(this.props.selection)
+      column2 : Object.values(this.props.selection),
+      loading : false,
     });
   }
 
@@ -50,7 +51,19 @@ class ShowProfile extends Component {
     }
   }
 
+  setLoadingText(column2) {
+    const output = column2.map((cell) => {
+      if ((isLink(cell) || isListOfLinks(cell))) {
+        return "Loading";
+      } else {
+        return cell;
+      }
+    })
+    return output;
+  }
+
   convertColumn2ToButton = async (list) => {
+    this.setState({loading : true})
     const newColumn2 = Promise.all(list.map((element) => {
       if (isLink(element)){
         const button = this.linkToButton(element);
@@ -62,7 +75,9 @@ class ShowProfile extends Component {
         return element
       }
     }))
-    this.setState({column2 : await newColumn2})
+    this.setState({
+      column2 : await newColumn2,
+      loading : false})
   }
 
   linkToButton = async (url) => {
@@ -97,7 +112,12 @@ class ShowProfile extends Component {
   createTableOutput = () => {
     const selectionKeys = Object.keys(this.props.selection);
     const column1 = selectionKeys.map((string) => string.replace(/_/g," "));
-    const column2 = this.state.column2;
+    let column2;
+    if (this.state.loading === true) {
+      column2 = this.setLoadingText(this.state.column2)
+    } else {
+      column2 = this.state.column2;
+    }
     const rows = column1.map((entry, i) => {
       return [column1[i], column2[i]]
     })
