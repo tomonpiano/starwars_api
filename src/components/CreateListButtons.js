@@ -28,7 +28,7 @@ const CreateListButtons = (objectList, handleClick) => {
     )
   });
   return (
-    <div>
+    <div className = "mw900">
       {buttonList}
     </div>
   )

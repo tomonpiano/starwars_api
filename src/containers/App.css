@@ -92,6 +92,10 @@ input {
 	align-items: center;
 }
 
+.mw900 {
+	max-width: 900px;
+}
+
 .autoWidth {
 	width: auto;
 	text-align: center;
